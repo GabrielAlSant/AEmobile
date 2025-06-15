@@ -1,18 +1,11 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import CurrentLocationPage from "./src/CurrentLocationPage";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { MyTabs } from "./lib/TabRouter";
+
 
 export default function App() {
-  const Tab = createBottomTabNavigator();
 
-  function MyTabs() {
-    return (
-      <Tab.Navigator>
-        <Tab.Screen name="Conversor" component={CurrentLocationPage} />
-      </Tab.Navigator>
-    );
-  }
+
 
   return (
     <SafeAreaView style={styles.container}>

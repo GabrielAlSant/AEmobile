@@ -11,12 +11,14 @@ import {
 import { useEffect, useState, useRef } from "react";
 import MapView from "react-native-maps";
 import Maps from '../components/map';
+import { recuperarCodigo } from "../lib/TabRouter";
 
 export default function CurrentLocationPage() {
   const [location, setLocation] = useState<LocationObject | null>(null);
   const [markers, setMarkers] = useState<
-    { latitude: number; longitude: number; criticidade: number }[]
+    {idDispositivo: string, latitude: number; longitude: number; criticidade: number }[]
   >([]);
+  
 
   const mapRef = useRef<MapView>(null);
 
@@ -41,7 +43,6 @@ export default function CurrentLocationPage() {
         distanceInterval: 1,
       },
       (response) => {
-        console.log(response);
         setLocation(response);
         mapRef.current?.animateCamera({
           pitch: 90,
@@ -53,19 +54,17 @@ export default function CurrentLocationPage() {
 
   async function handleLongPress(event: any) {
     const currentPosition = await getCurrentPositionAsync();
+    const codigo = await recuperarCodigo()
     setMarkers((prev) => [
       ...prev,
       {
+        idDispositivo: codigo as string,
         latitude: currentPosition.coords.latitude,
         longitude: currentPosition.coords.longitude,
         criticidade: 2,
       },
     ]);
   }
-
-  useEffect(() => {
-    console.log(markers);
-  }, [markers]);
 
   return (
     <View style={styles.container}>
