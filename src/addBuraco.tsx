@@ -46,24 +46,44 @@ export default function ReportarProblema() {
   };
 
   async function adicionarBuraco(event: any) {
-    const codigo = await recuperarCodigo();
-    console.log(markers)
-    if(localizacaoSelecionada && descricao && urgencia){
-     
-      setMarkers((prev) => [
-      ...prev,
-      {
-        idDispositivo: codigo as string,
-        latitude: localizacaoSelecionada.latitude,
-        longitude: localizacaoSelecionada.longitude,
-        criticidade: urgencia,
-        descricao: descricao,
-      },
-    ])
-    
-     console.log(markers);
+  const codigo = await recuperarCodigo();
+
+  if (localizacaoSelecionada && descricao && urgencia) {
+    const novoBuraco = {
+      idDispositivo: codigo as string,
+      latitude: localizacaoSelecionada.latitude,
+      longitude: localizacaoSelecionada.longitude,
+      criticidade: urgencia,
+      descricao: descricao,
+    };
+
+    setMarkers([novoBuraco]);
+
+    try {
+      const resposta = await fetch('https://projeto-vias.vercel.app/report', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(novoBuraco),
+      });
+
+      if (!resposta.ok) throw new Error('Erro ao enviar buraco');
+
+      const respostaJson = await resposta.json();
+      console.log('Buraco enviado com sucesso:', respostaJson);
+
+  
+      setMarkers([]);
+      setDescricao('');
+      setUrgencia(null);
+      setLocalizacaoSelecionada(null);
+    } catch (error) {
+      console.error('Erro ao enviar:', error);
     }
   }
+}
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Reportar um Problema</Text>

@@ -23,7 +23,6 @@ export default function CurrentLocationPage({ onSelecionarLocalizacao }: Props) 
       idDispositivo: string;
       latitude: number;
       longitude: number;
-      criticidade: number;
       descricao: string;
     }[]
   >([]);
@@ -51,7 +50,6 @@ export default function CurrentLocationPage({ onSelecionarLocalizacao }: Props) 
       (response) => {
         setLocation(response);
         mapRef.current?.animateCamera({
-          pitch: 90,
           center: response.coords,
         });
       }
@@ -65,6 +63,16 @@ export default function CurrentLocationPage({ onSelecionarLocalizacao }: Props) 
       longitude: currentPosition.coords.longitude,
     });
   }
+
+  useEffect(() => {
+    fetch('https://projeto-vias.vercel.app/RETORNARTODOSBURACOS')
+      .then(response => response.json())
+      .then(data => {
+        setMarkers(data);
+        console.log(markers)
+      })
+  }, []);
+
 
   return (
     <View style={{ flex: 1 }}>

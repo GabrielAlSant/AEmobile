@@ -7,7 +7,6 @@ import MapView, { Marker } from "react-native-maps";
 interface MarkerType {
   latitude: number;
   longitude: number;
-  criticidade: number;
 }
 
 interface MapsProps {
@@ -50,12 +49,7 @@ export default function Maps({ markers, location, mapRef, styles }: MapsProps) {
               title={`Buraco ${index + 1}`}
               description="Buraco Reportado"
               image={
-                (marker.criticidade === 3 &&
-                  require("../assets/Prioridades/Prioridade Alta.png")) ||
-                (marker.criticidade === 2 &&
-                  require("../assets/Prioridades/Prioridade Media.png")) ||
-                (marker.criticidade === 1 &&
-                  require("../assets/Prioridades/Prioridade Baixa.png"))
+                  require("../assets/Prioridades/Prioridade Alta.png")
               }
             />
           ))}

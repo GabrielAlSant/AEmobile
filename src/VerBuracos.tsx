@@ -21,7 +21,6 @@ export default function VerBuracos(){
           idDispositivo: string;
           latitude: number;
           longitude: number;
-          criticidade: number;
         }[]
       >([]);
 const mapRef = useRef<MapView>(null);
@@ -49,11 +48,19 @@ const mapRef = useRef<MapView>(null);
       (response) => {
         setLocation(response);
         mapRef.current?.animateCamera({
-          pitch: 90,
           center: response.coords,
         });
       }
     );
+  }, []);
+
+   useEffect(() => {
+    fetch('https://projeto-vias.vercel.app/RETORNARTODOSBURACOS')
+      .then(response => response.json())
+      .then(data => {
+        setMarkers(data);
+        console.log(markers)
+      })
   }, []);
 
     return(
