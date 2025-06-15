@@ -4,8 +4,6 @@ import {
 import MapView, { Marker } from "react-native-maps";
 
 
-import { styles } from "../styles/styles";
-
 interface MarkerType {
   latitude: number;
   longitude: number;
@@ -15,11 +13,12 @@ interface MarkerType {
 interface MapsProps {
   markers: MarkerType[];
   location: LocationObject | null;
-  mapRef: any
+  mapRef: any;
+  styles: any
 }
 
 
-export default function Maps({ markers, location, mapRef }: MapsProps) {
+export default function Maps({ markers, location, mapRef, styles }: MapsProps) {
   return (
     <>
       {location && (
@@ -41,7 +40,7 @@ export default function Maps({ markers, location, mapRef }: MapsProps) {
             title="Você está aqui"
           />
 
-          {markers.map((marker, index) => (
+          {markers && markers.map((marker, index) => (
             <Marker
               key={index}
               coordinate={{
@@ -56,8 +55,7 @@ export default function Maps({ markers, location, mapRef }: MapsProps) {
                 (marker.criticidade === 2 &&
                   require("../assets/Prioridades/Prioridade Media.png")) ||
                 (marker.criticidade === 1 &&
-                  require("../assets/Prioridades/Prioridade Baixa.png")) ||
-                undefined
+                  require("../assets/Prioridades/Prioridade Baixa.png"))
               }
             />
           ))}
