@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -20,15 +19,22 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
-      "package": "com.hazakih.AEmobile"
+      "package": "com.hazakih.AEmobile",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "plugins": [
+      "expo-router"
+    ],
     "extra": {
+      "router": {},
       "eas": {
-        "projectId": "e115d575-ba45-4211-8c34-73d717e3fac7"
+        "projectId": "c1fc86f2-5b0e-4f06-b201-644ee4d0f0c1"
       }
     }
   }

@@ -1,8 +1,8 @@
-import {
-  LocationObject
-} from "expo-location";
-import MapView, { Marker } from "react-native-maps";
+import { LocationObject } from "expo-location";
+import MapView, { Marker, UrlTile } from "react-native-maps";
 
+// 👇 PASSO 1: Importe a imagem para uma constante aqui no topo do arquivo.
+const markerIcon = require("../assets/Prioridades/Prioridade Alta.png");
 
 interface MarkerType {
   latitude: number;
@@ -13,9 +13,8 @@ interface MapsProps {
   markers: MarkerType[];
   location: LocationObject | null;
   mapRef: any;
-  styles: any
+  styles: any;
 }
-
 
 export default function Maps({ markers, location, mapRef, styles }: MapsProps) {
   return (
@@ -27,10 +26,16 @@ export default function Maps({ markers, location, mapRef, styles }: MapsProps) {
           initialRegion={{
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            latitudeDelta: 0.0005,
-            longitudeDelta: 0.0005,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
           }}
         >
+          <UrlTile
+            urlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+            maximumZ={19}
+            flipY={false}
+          />
+          
           <Marker
             coordinate={{
               latitude: location.coords.latitude,
@@ -48,9 +53,8 @@ export default function Maps({ markers, location, mapRef, styles }: MapsProps) {
               }}
               title={`Buraco ${index + 1}`}
               description="Buraco Reportado"
-              image={
-                  require("../assets/Prioridades/Prioridade Alta.png")
-              }
+              // 👇 PASSO 2: Use a constante com a imagem aqui.
+              image={markerIcon}
             />
           ))}
         </MapView>
