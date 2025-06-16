@@ -55,7 +55,7 @@ const mapRef = useRef<MapView>(null);
   }, []);
 
    useEffect(() => {
-    fetch('https://projeto-vias.vercel.app/RETORNARTODOSBURACOS')
+    fetch('https://projeto-vias-sjrv.vercel.app/RETORNARTODOSBURACOS')
       .then(response => response.json())
       .then(data => {
         setMarkers(data);

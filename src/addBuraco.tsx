@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import Toast from 'react-native-toast-message';
 
 import { recuperarCodigo } from '../lib/TabRouter';
 import CurrentLocationPage from '../components/CurrentLocationPage';
@@ -34,6 +35,13 @@ export default function ReportarProblema() {
     }[]
   >([]);
 
+   const showToast = () => {
+    Toast.show({
+      type: 'success', // success | error | info
+      text1: 'Operação realizada!',
+      text2: 'O item foi salvo com sucesso 👋',
+    });
+  };
 
    const handleLocalizacaoLocal = (coords: { latitude: number; longitude: number }) => {
     setLocalizacaoSelecionada(coords);
@@ -60,20 +68,27 @@ export default function ReportarProblema() {
     setMarkers([novoBuraco]);
 
     try {
-      const resposta = await fetch('https://projeto-vias.vercel.app/report', {
+      const resposta = await fetch('https://projeto-vias-sjrv.vercel.app/report', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(novoBuraco),
       });
+ 
+      if(resposta.status == 208){
+       Toast.show({
+    type: 'info',
+    text1: 'Buraco já identificado',
+    text2: 'Seu reporte também é importante. Muito obrigado!',
+    position: 'bottom',
+    visibilityTime: 4000,
+  });
+      }
 
       if (!resposta.ok) throw new Error('Erro ao enviar buraco');
 
       const respostaJson = await resposta.json();
-      console.log('Buraco enviado com sucesso:', respostaJson);
-
-  
       setMarkers([]);
       setDescricao('');
       setUrgencia(null);
@@ -86,7 +101,7 @@ export default function ReportarProblema() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Reportar um Problema</Text>
+      <Text style={styles.header}>Reportar um buraco</Text>
 
       <View style={styles.card}>
         <Text style={styles.subTitle}>Localização</Text>
@@ -127,6 +142,7 @@ export default function ReportarProblema() {
         value={descricao}
         onChangeText={setDescricao}
       />
+      <Toast />
 
       <TouchableOpacity style={styles.submitButton} onPress={adicionarBuraco}>
         <Text style={styles.submitButtonText}>Enviar Reporte</Text>

@@ -9,7 +9,7 @@ export function MyTabs() {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator>
-      <Tab.Screen name="ReportarProblema" component={ReportarProblema} />
+      <Tab.Screen name="Reportar um Buraco" component={ReportarProblema} />
       <Tab.Screen name="Meu mapa" component={VerBuracos} />
     </Tab.Navigator>
   );
